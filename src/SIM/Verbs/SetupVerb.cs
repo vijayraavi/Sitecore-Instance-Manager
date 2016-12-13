@@ -40,7 +40,7 @@
         Assert.ArgumentNotNullOrEmpty(value, nameof(value));
 
         // TODO: Customize CommandLineParser to do that automagically via overriding and annotating DefaultLocation
-        this.DefaultLocation = FileSystem.ParseFolder(value);
+        DefaultLocation = FileSystem.ParseFolder(value);
       }
     }
 
@@ -58,7 +58,7 @@
       {
         Assert.ArgumentNotNullOrEmpty(value, nameof(value));
 
-        base.LicenseFile = FileSystem.ParseFile(value);
+        LicenseFile = FileSystem.ParseFile(value);
       }
     }
   }

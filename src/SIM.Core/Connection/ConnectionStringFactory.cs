@@ -3,6 +3,7 @@
   using System;
   using JetBrains.Annotations;
   using SIM.Abstract.Connection;
+  using SIM.Connection.MongoDb;
   using SIM.Connection.SqlServer;
 
   public class ConnectionStringFactory : IConnectionStringFactory
@@ -12,7 +13,8 @@
     [NotNull]
     private readonly IConnectionStringParser[] _Parsers =
     {
-      new SqlServerConnectionStringParser()
+      new SqlServerConnectionStringParser(),
+      new MongoDbConnectionStringParser(), 
     };
 
     public IConnectionString TryParse(string connectionString)

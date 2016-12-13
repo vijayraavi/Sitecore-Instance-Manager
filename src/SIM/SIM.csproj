@@ -68,10 +68,12 @@
   <ItemGroup>
     <Compile Include="Common\Analytics.cs" />
     <Compile Include="Default.cs" />
+    <Compile Include="Verbs\MongoAddVerb.cs" />
     <Compile Include="Verbs\ProfileVerb.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Verbs\ServiceAddVerb.cs" />
     <Compile Include="Verbs\SetupVerb.cs" />
+    <Compile Include="Verbs\SolrAddVerb.cs" />
     <Compile Include="Verbs\VerbsPalette.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

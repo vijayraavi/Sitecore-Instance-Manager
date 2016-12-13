@@ -3,9 +3,9 @@ namespace SIM.Abstract.Services
   using JetBrains.Annotations;        
   using SIM.Abstract.Connection;
   using SIM.Services;
-
-  public class Service 
-  {            
+                         
+  public class Service
+  {
     [NotNull]
     public string Name { get; set; }
 

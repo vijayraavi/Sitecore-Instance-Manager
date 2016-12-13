@@ -60,6 +60,10 @@
     <Compile Include="Abstract\Services\Service.cs" />
     <Compile Include="Common\ICommandResult.cs" />
     <Compile Include="Common\Text.cs" />
+    <Compile Include="Connection\MongoDb\MongoDbConnectionString.cs" />
+    <Compile Include="Connection\MongoDb\MongoDbConnectionStringParser.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Stores\ServiceStore.cs" />
     <Compile Include="Abstract\Services\IServiceStore.cs" />

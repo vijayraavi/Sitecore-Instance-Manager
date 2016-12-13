@@ -68,9 +68,11 @@
     <Compile Include="Commands\ProfileCommandTests.cs" />
     <Compile Include="Common\AbstractCommandTests.cs" />
     <Compile Include="Common\CustomExceptionTests.cs" />
+    <Compile Include="Connection\MongoDb\MongoDbConnectionStringTests.cs" />
     <Compile Include="Profiles\ProfileProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Connection\SqlServer\SqlServerConnectionStringTests.cs" />
+    <Compile Include="Stores\ServiceStoreTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -85,9 +87,7 @@
       <Name>SIM.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Stores\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

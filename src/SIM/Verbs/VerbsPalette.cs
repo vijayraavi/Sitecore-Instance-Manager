@@ -24,8 +24,16 @@
     public ProfileVerb ProfileVerb { get; set; }
 
     [UsedImplicitly]
-    [VerbOption("service-add", HelpText = "Add service endpoint.")]
-    public ServiceAddVerb ServiceAddVerb { get; set; }
+    [VerbOption("sql-add", HelpText = "Add SQL Server endpoint.")]
+    public SqlAddVerb SqlAddVerb { get; set; }
+
+    [UsedImplicitly]
+    [VerbOption("mongo-add", HelpText = "Add MongoDB endpoint.")]
+    public MongoAddVerb MongoAddVerb { get; set; }
+
+    [UsedImplicitly]
+    [VerbOption("solr-add", HelpText = "Add Solr endpoint.")]
+    public MongoAddVerb SolrAddVerb { get; set; }
 
     #endregion
   }

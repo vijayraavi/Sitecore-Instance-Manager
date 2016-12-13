@@ -8,6 +8,7 @@
   using SIM.Abstract.Services;
   using SIM.Extensions;
   using SIM.Serialization;
+  using SIM.Services;
 
   public class ServiceStore : IServiceStore
   {
@@ -21,7 +22,7 @@
     protected ISerializer Serializer { get; }
 
     [NotNull]
-    private Dictionary<string, Service> Dictionary { get; }
+    private Dictionary<ServiceType, Dictionary<string, Service>> Dictionary { get; }
 
     // main ctor
     public ServiceStore([NotNull] IFile file, [NotNull] ISerializer serializer)
@@ -29,7 +30,7 @@
       Assert.ArgumentNotNull(file, nameof(file));
       Assert.ArgumentNotNull(serializer, nameof(serializer));
 
-      var dictionary = file.Exists ? ReadFile(file, serializer) : new Dictionary<string, Service>();
+      var dictionary = file.Exists ? ReadFile(file, serializer) : new Dictionary<ServiceType, Dictionary<string, Service>>();
 
       File = file;
       Dictionary = dictionary;
@@ -44,7 +45,7 @@
     }
 
     [NotNull]
-    protected IReadOnlyDictionary<string, Service> InnerStore => Dictionary;
+    protected object InnerStore => Dictionary;
 
     public void Add(Service service)
     {
@@ -52,17 +53,22 @@
 
       lock (_SyncRoot)
       {
-        Dictionary.Add(service.Name, service);
+        Dictionary.GetOrCreate(service.Type.Value).Add(service.Name, service);
 
         Commit();
       }
     }
 
-    public void Remove(string name)
+    public bool Exists(string name, ServiceType type)
+    {
+      return Dictionary.GetOrCreate(type).ContainsKey(name);
+    }
+
+    public void Remove(string name, ServiceType type)
     {
       lock (_SyncRoot)
       {
-        Dictionary.Remove(name);
+        Dictionary.TryGetValue(type)?.Remove(name);
 
         Commit();
       }
@@ -76,20 +82,15 @@
       }
     }
 
-    public bool Exists(string name)
-    {
-      return InnerStore.ContainsKey(name);
-    }
-
     [NotNull]
-    private static Dictionary<string, Service> ReadFile([NotNull] IFile file, [NotNull] ISerializer serializer)
+    private static Dictionary<ServiceType, Dictionary<string, Service>> ReadFile([NotNull] IFile file, [NotNull] ISerializer serializer)
     {
       Assert.ArgumentNotNull(file, nameof(file));
       Assert.ArgumentNotNull(serializer, nameof(serializer));
 
       using (var reader = new StreamReader(file.OpenRead()))
       {
-        return serializer.Deserialize<Dictionary<string, Service>>(reader).IsNotNull();
+        return serializer.Deserialize<Dictionary<ServiceType, Dictionary<string, Service>>>(reader).IsNotNull();
       }
     }
   }

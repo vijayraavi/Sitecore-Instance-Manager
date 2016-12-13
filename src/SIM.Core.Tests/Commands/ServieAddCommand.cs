@@ -152,7 +152,7 @@
       Assert.Equal(true, result.Success);
       Assert.Equal(null, result.Error);
 
-      serviceStore.Received().Exists("Test");
+      serviceStore.Received().Exists("Test", ServiceType.SqlServer);
       serviceStore.ReceivedWithAnyArgs(1).Add(null);
     }
 
@@ -163,7 +163,7 @@
       var connectionFactory = Substitute.For<IConnectionStringFactory>().IsNotNull();
       var serviceStore = Substitute.For<IServiceStore>().IsNotNull();
 
-      serviceStore.Exists("Test").Returns(true);
+      serviceStore.Exists("Test", ServiceType.SqlServer).Returns(true);
 
       var sut = new ServiceAddCommand(connectionFactory, serviceStore)
       {
@@ -179,7 +179,7 @@
       Assert.Equal(false, result.Success);
       Assert.Equal(null, result.Error);
 
-      serviceStore.Received().Exists("Test");
+      serviceStore.Received().Exists("Test", ServiceType.SqlServer);
       serviceStore.DidNotReceiveWithAnyArgs().Add(null);
     }
   }

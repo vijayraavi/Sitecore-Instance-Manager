@@ -33,7 +33,7 @@ namespace SIM.Commands
      
       var connectionString = new SqlServerConnectionString(ConnectionString);
 
-      if (ServiceStore.Exists(ServiceName))
+      if (ServiceStore.Exists(ServiceName, ServiceType.Value))
       {
         result.Success = false;
         result.Message = $"Service with the '{ServiceName}' already exists";
