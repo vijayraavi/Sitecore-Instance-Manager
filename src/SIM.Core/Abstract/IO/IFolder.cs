@@ -4,6 +4,8 @@
   {
     bool TryCreate();
 
+    void Create();
+
     bool Exists { get; }
   }
 }

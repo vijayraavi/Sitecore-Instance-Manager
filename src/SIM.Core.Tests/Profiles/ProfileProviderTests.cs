@@ -13,7 +13,7 @@
     {       
       // arrange                                                              
       var fs = new MockFileSystem();                                          
-      var file = fs.ParseFile("C:\\1", () => { throw new FileNotFoundException("Could not find file \'C:\\1\'."); });
+      var file = fs.ParseFile("C:\\1");
 
       var sut = new ProfileProvider(file);
 

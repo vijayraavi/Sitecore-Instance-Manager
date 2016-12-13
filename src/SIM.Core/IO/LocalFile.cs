@@ -51,7 +51,7 @@
 
     public override int GetHashCode()
     {
-      return this.FileInfo.GetHashCode();
+      return FileInfo.GetHashCode();
     }
   }
 }

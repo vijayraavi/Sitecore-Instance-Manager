@@ -25,9 +25,21 @@
         return false;
       }
 
-      DirectoryInfo.Create();
+      try
+      {
+        DirectoryInfo.Create();
 
-      return true;
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
+    public void Create()
+    {
+      DirectoryInfo.Create();
     }
 
     public bool Equals(LocalFolder other)
@@ -42,7 +54,7 @@
 
     public override int GetHashCode()
     {
-      return this.DirectoryInfo.GetHashCode();
+      return DirectoryInfo.GetHashCode();
     }
   }
 }

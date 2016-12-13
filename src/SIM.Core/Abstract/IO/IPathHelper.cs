@@ -9,5 +9,8 @@
 
     [NotNull]
     string Combine([NotNull] string path1, [NotNull] string path2);
+
+    [NotNull]
+    string GetDirectoryName([NotNull] string path);
   }
 }

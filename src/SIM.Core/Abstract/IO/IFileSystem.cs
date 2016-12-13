@@ -11,6 +11,6 @@
     IFolder ParseFolder([NotNull] string path);
 
     [NotNull]
-    IFile ParseFile([NotNull] string path);                 
+    IFile ParseFile([NotNull] string path);
   }
 }

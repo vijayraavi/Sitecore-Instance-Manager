@@ -8,27 +8,36 @@
 
   public class MockFile : MockFileSystemEntry, IFile, IEquatable<MockFile>
   {
-    public MockFile(IFileSystem fileSystem, string path, [NotNull] string contents) : base(fileSystem, path)
+    private bool _Exists;
+
+    public MockFile(IMockFileSystem fileSystem, string path, [NotNull] string contents) 
+      : base(fileSystem, path)
     {
       Assert.ArgumentNotNullOrEmpty(contents, nameof(contents));
 
       Stream = GetStream(contents);
-      Folder = fileSystem.ParseFolder(Path.GetDirectoryName(FullName));
+      Folder = fileSystem.ParseFolder(fileSystem.Path.GetDirectoryName(FullName));
     }
 
-    public MockFile(IFileSystem fileSystem, string path, [NotNull] Stream stream) : base(fileSystem, path)
+    public MockFile([NotNull] IMockFileSystem fileSystem, [NotNull] string path, [NotNull] Stream stream) 
+      : base(fileSystem, path)
     {
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
       Assert.ArgumentNotNull(stream, nameof(stream));
 
       Stream = stream;
-      Folder = fileSystem.ParseFolder(Path.GetDirectoryName(FullName));
+      Folder = fileSystem.ParseFolder(fileSystem.Path.GetDirectoryName(FullName));
     }
 
-    public MockFile(IFileSystem fileSystem, string path, Func<Stream> openRead = null, Func<Stream> openWrite = null) : base(fileSystem, path)
+    public MockFile([NotNull] IMockFileSystem fileSystem, string path, Func<Stream> openRead = null, Func<Stream> openWrite = null)
+      : base(fileSystem, path)
     {
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
+
       OpenReadFunc = openRead;
       OpenWriteFunc = openWrite;
-      Folder = fileSystem.ParseFolder(Path.GetDirectoryName(FullName));
+      Folder = fileSystem.ParseFolder(fileSystem.Path.GetDirectoryName(FullName));
     }
 
     public Func<Stream> OpenReadFunc { get; }
@@ -39,10 +48,31 @@
 
     public IFolder Folder { get; }
 
-    public bool Exists { get; set; } = true;
+    public bool Exists
+    {
+      get
+      {
+        return _Exists;
+      }
+
+      set
+      {
+        if (!MockFileSystem.Contains(FullName))
+        {
+          MockFileSystem.Add(FullName, this);
+        }
+
+        _Exists = value;
+      }
+    }
 
     public Stream OpenRead()
     {
+      if (!Exists)
+      {
+        throw new FileNotFoundException();
+      }
+
       if (OpenReadFunc != null)
       {
         return OpenReadFunc().IsNotNull();
@@ -60,6 +90,8 @@
 
     public Stream OpenWrite()
     {
+      Exists = true;
+
       return Stream ?? OpenWriteFunc?.Invoke() ?? (Stream = new KeepAliveMemoryStream());
     }
 
@@ -86,7 +118,7 @@
 
     public override int GetHashCode()
     {
-      return this.FullName.GetHashCode();
+      return FullName.GetHashCode();
     }
 
     public class KeepAliveMemoryStream : MemoryStream

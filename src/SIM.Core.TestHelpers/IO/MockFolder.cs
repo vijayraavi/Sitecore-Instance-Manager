@@ -6,7 +6,7 @@
 
   public class MockFolder : MockFileSystemEntry, IFolder, IEquatable<MockFolder>
   {
-    public MockFolder(IFileSystem fileSystem, string fullPath) : base(fileSystem, fullPath)
+    public MockFolder(IMockFileSystem fileSystem, string fullPath) : base(fileSystem, fullPath)
     {
     }
 
@@ -21,6 +21,11 @@
       return !existedBefore;
     }
 
+    public void Create()
+    {
+      Exists = true;
+    }
+
     public bool Equals(MockFolder other)
     {
       return this.Equals(other, x => x?.FullName);
@@ -33,7 +38,7 @@
 
     public override int GetHashCode()
     {
-      return this.FullName.GetHashCode();
+      return FullName.GetHashCode();
     }
   }
 }

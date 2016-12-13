@@ -56,6 +56,7 @@
     <Compile Include="Abstract\Connection\IConnectionString.cs" />
     <Compile Include="Abstract\Connection\IConnectionStringFactory.cs" />
     <Compile Include="Abstract\Connection\IConnectionStringParser.cs" />
+    <Compile Include="Abstract\IO\IMockFileSystem.cs" />
     <Compile Include="Abstract\Services\Service.cs" />
     <Compile Include="Common\ICommandResult.cs" />
     <Compile Include="Common\Text.cs" />
