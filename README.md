@@ -1,95 +1,60 @@
-# Sitecore Instance Manager (SIM 1.4)
+# Sitecore Instance Manager (SIM 2.0)
 
-**SIM 1.4 is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstall or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
+## Description
 
-### [Download SIM 1.4](http://dl.sitecore.net/updater/sim) as a ClickOnce app
+SIM2 is an app that sets up scaled Sitecore solutions: 
+several Sitecore instances deployed to different servers acting with different roles.
 
-### Resources
+## High-Level Overview
 
-1. [Release History](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Releases)
-2. [Documentation](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Documentation)
-3. [Troubleshooting](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting)
-4. [Developer Center](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/API)
-5. [Contact Us](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Support)
+**SIM 1.x** was designed for development environment and rapid Sitecore installation 
+of any version. The main purpose was to improve PSS support ticket workflow to perform 
+investigation on clean Sitecore instance of given version. So entire process was built 
+around this subject. 
 
-Note, we are in progress of migrating from bitbucket to github so don't be confused by some of the links pointing back to bitbucket.
+Main features:
 
-### Features
+* bypass security - to save time on typing passwords
+* app pool state control - to simulate production conditions
+* installation of modules/packages/tweaks
+* backup/restore - to recover previous instance state after unsuccessful experiment
+* reinstall - to prepare an instance for next ticket
 
-#### Global Features
+**SIM 2.0** is designed for different purpose, it is **a portable, solution-wide 
+multi-environment Sitecore-specific CI system** that can be used for 
+**simple non-production deployments** with support of 
+* remote web/IIS servers, 
+* remote SQL/Mongo/Solr servers
 
-1. **List** Sitecore websites installed locally and their modules
-2. **Install** new Sitecore standalone product
-3. **Install** Sitecore modules and packages
-4. **Download** Sitecore products from SDN and DEV
-5. **Back up** Sitecore websites, and **Restore** them
-6. **Export** Sitecore website and **Import** it on remote computer
-7. **Delete** Sitecore websites
-8. **Reinstall** Sitecore website
-
-#### Open in Browser
-
-* Open website 
-* Open Sitecore Client 
-* Open Sitecore Client ([bypassing security, logging in as admin](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Log-in-admin))
-* Open [Support Toolbox](https://bitbucket.org/sitecoresupport/sitecore-support-toolbox)
-
-#### Open applications
-
-* Open Website folder
-* Open Visual Studio 2012 project (create project if missing)
-* Open web.config and other *.config files
-* Open `showconfig.xml` configuration
-* Open current log file in Dynamic Log Viewer
-* Open entire log files in [Sitecore Log Analyzer](http://marketplace.sitecore.net/Modules/Sitecore_Log_Analyzer.aspx)
-
-#### Change website
-
-* Start/Stop App Pool
-* Recycle App Pool
-* Kill `w3wp.exe` process
-* Change Framework version
-* Change Framework bitness
-
-#### Solr index creation
-
-* SIM now includes Solr support.
-  * For Sitecore 8.2, this is available as a Configuration Preset during the installation wizard. 
-  * For Sitecore 8.1, it is necessary to download the appropriate "Solr support package" from http://dev.sitecore.net/downloads, and to add it to SIM using the "Add Module" button on the "Modules list" screen during installation.
-* This supports Solr 4 and higher. 
-  * Note: For Solr 4.x, the default "collection1" is used as a template, and must be present. For Solr 5.x and higher, the configuration located
-   at `server\solr\configsets\data_driven_schema_configs` is used, as it has the language support required to index non-English text.
-* This module automates the following tasks:
-    * Activates all Solr config files, and deactivates matching Lucene config files (same name with "Lucene" replacing "Solr"), with the following exceptions:
-      * Sitecore 8.2 Solr + IOC files are not enabled.
-      * Lucene default configuration files `Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config` and `Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.Xdb.config` are not disabled.
-      * The unmatched configuration file `Sitecore.Social.Lucene.Index.Analytics.Facebook.config` is disabled as required.
-    * Sets core name to instance name + index name (e.g. "sc82u0_sitecore_web_index")
-    * Copies configuration from "collection1" for each new core.
-    * Calls Sitecore schema update wizard ("Generate the Solr Schema.xml file") for each new core.
-    * Calls Solr API to create each core/collection.
-    * Indexes are left empty, but can be built from Control Panel/Indexing Manager.
-    * Enables Solr term support, as described [here.](https://doc.sitecore.net/sitecore_experience_platform/80/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Toc399318998)
+It should be possible to spin-up production-like one or several test environments 
+with many Sitecore instances in each having either only a dev laptop or a bunch of 
+geographically-distributed servers. 
 
 
-#### Extra features
+## Conceptual Roadmap
 
-* Install MongoDB in one click
-* Edit `etc\hosts` file
-* Batch operations with SQL databases
-* Predefined configurations (Enable MVC, Scaling ...)
-* Delete All Instances - wizard for deleting all installed Sitecore instances
-* Update Licenses - Updating Sitecore license file in all installed Sitecore instances
-* [SSPG](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Package_Generator.aspx) - Sitecore Support Package Generator for collecting detailed information about an instance
-* Publish Dialog - executing Sitecore publishing in application
+**SIM 2.1** should expose [Sitecore Information Service](http://dl.sitecore.net/updater/info) to download necessary Sitecore versions on-the-fly.
 
-### Supported Products
+**SIM 2.2** should deliver backup/restore and export/import functionality on the solution-scale level. 
 
-* Sitecore CMS 6.3 and later
-* All Sitecore modules 
+## Format
 
-Some of Sitecore modules have special support for initial configuration:
+It is a command-line interface that has only two major commands in v2.0:
+* deploy - take the manifest and the environment file, and make a deployment
+* remove - remove everything deployed by previous command
 
-* Active Directory 
-* Web Forms for Marketers 
-* E-mail Campaign Manager 
+A solution manifest must not contain any connection strings, file paths etc. It must 
+describe a solution configuration, number of servers, their roles and connections, but 
+not the actual paths and connection strings. 
+
+A solution environment file contains necessary variables for the manifest file e.g. 
+paths, keys and connection strings to database servers and search providers. 
+
+## Technical Aspects
+
+0. Command-line interface with no progress indication (workaround: realtime log viewer is monitoring log file)
+1. Not a Client-Server architecture. 
+2. 8.1.3+ with Configuration Roles to avoid configuration hassle.
+3. .NET 4.5 with further optional migration to .NET Core
+4. TDD
+5. JSON format of input and output data
