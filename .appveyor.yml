@@ -1,11 +1,33 @@
+#
+# https://ci.appveyor.com/project/AlenPelin/sitecore-instance-manager
+#
+
 before_build:
   - nuget restore "src\sim2.sln"
 
 platform: Any CPU
 configuration: Release
   
+version: 2.0.0.{build}
+
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+  
+build:
+  parallel: true                 
+  verbosity: minimal
+
+after_build:
+  - cmd: cd src\SIM\bin\Release
+  - cmd: 7z a sim2.zip ".\*"
+  - cmd: move sim2.zip ..\..\..\..\sim2-%APPVEYOR_BUILD_VERSION%.zip
+  
 artifacts:
-  - path: 'src\SIM\bin\$(configuration)\**\*.*'
+  - path: sim2-*.zip
     name: sim2
     
 test:
