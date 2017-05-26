@@ -7,3 +7,9 @@ src/SIM.App.UnitTests/bin/
 src/SIM.App.UnitTests/obj/
 src/SIM.App/bin/
 src/SIM.App/obj/
+src/SIM.Base/bin/
+src/SIM.Base/obj/
+src/SIM.Foundation.SqlAdapter/bin/
+src/SIM.Foundation.SqlAdapter/obj/
+src/SIM.Foundation.SqlAdapter.IntegrationTests/bin/
+src/SIM.Foundation.SqlAdapter.IntegrationTests/obj/
