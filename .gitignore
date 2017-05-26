@@ -1,6 +1,7 @@
 *.user
 src/.vs/
 src/packages/
+src/TestResults/
 src/SIM/bin/
 src/SIM/obj/
 src/SIM.App.UnitTests/bin/

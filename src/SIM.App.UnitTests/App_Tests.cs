@@ -62,7 +62,7 @@
     }
 
     [TestMethod]
-    public void Deserialize()
+    public void Deserialize_Json()
     {
       var command = (DeserializeClass)App.Deserialize(typeof(DeserializeClass), "{'test123': 'myprop123'}");
       Assert.IsNotNull(command);

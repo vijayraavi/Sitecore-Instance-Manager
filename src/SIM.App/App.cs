@@ -19,12 +19,20 @@
       };
 
     [NotNull]
-    private static JsonSerializerSettings JsonSettings { get; } =
+    private static JsonSerializerSettings SerializerSettings { get; } =
       new JsonSerializerSettings
       {
         NullValueHandling = NullValueHandling.Ignore,
         Formatting = Formatting.Indented,
-        ContractResolver = new CommandArgumentResolver()
+      };
+
+    [NotNull]
+    private static JsonSerializerSettings DeserializerSettings { get; } =
+      new JsonSerializerSettings
+      {
+        NullValueHandling = NullValueHandling.Ignore,
+        Formatting = Formatting.Indented,
+        ContractResolver = new CommandArgumentResolver(),
       };
 
     [NotNull]
@@ -60,7 +68,10 @@
           continue;
         }
 
-        return ProcessVerb(verb.Key);
+        var type = verb.Key;
+        Assert.IsNotNull(type);
+
+        return ProcessVerb(type);
       }
 
       var error = new AppOutput
@@ -81,7 +92,7 @@
     }
 
     [NotNull]
-    private AppOutput ProcessVerb(Type type)
+    private AppOutput ProcessVerb([NotNull] Type type)
     {
       var commandData = CommandData;
       if (commandData == "")
@@ -96,7 +107,7 @@
     }
 
     [NotNull]
-    private static AppOutput ProcessCommand(ICommand command)
+    private static AppOutput ProcessCommand([NotNull] ICommand command)
     {
       try
       {
@@ -120,12 +131,12 @@
     }
 
     [NotNull]
-    internal static string Serialize(object output)
+    internal static string Serialize([NotNull] object output)
     {
-      return JsonConvert.SerializeObject(output, JsonSettings) ?? "";
+      return JsonConvert.SerializeObject(output, SerializerSettings) ?? "";
     }
 
-    internal static object Deserialize(Type type, string commandData)
+    internal static object Deserialize([NotNull] Type type, [NotNull] string commandData)
     {
       return JsonConvert.DeserializeObject(commandData, type, JsonSettings);
     }

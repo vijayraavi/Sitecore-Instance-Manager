@@ -5,7 +5,6 @@
   using System.Linq;
   using JetBrains.Annotations;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
-  using SIM.Base;
   using SIM.Base.FileSystem;
   using SIM.Base.Services;
 

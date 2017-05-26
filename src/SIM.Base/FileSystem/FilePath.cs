@@ -4,13 +4,13 @@
 
   public sealed class FilePath
   {
+    [NotNull]
+    public string FullName { get; }
+
     public FilePath([NotNull] string fullname)
     {
       FullName = fullname;
     }
-
-    [NotNull]
-    public string FullName { get; }
 
     [NotNull]
     public static implicit operator string([NotNull] FilePath filePath)

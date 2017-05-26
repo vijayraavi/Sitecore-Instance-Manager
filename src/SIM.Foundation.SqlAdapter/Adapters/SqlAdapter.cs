@@ -6,7 +6,6 @@
   using JetBrains.Annotations;
   using Microsoft.SqlServer.Dac;
   using Sitecore.Diagnostics.Base;
-  using SIM.Base;
   using SIM.Base.FileSystem;
   using SIM.Base.Services;
 

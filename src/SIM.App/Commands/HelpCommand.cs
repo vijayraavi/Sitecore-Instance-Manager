@@ -8,6 +8,11 @@
 
   public class HelpCommand : ICommand
   {
+    [UsedImplicitly]
+    public HelpCommand()
+    {
+    }
+
     [CanBeNull]
     [CommandArgument("command", "Name of command to get detailed info about")]
     public string CommandName { get; set; }

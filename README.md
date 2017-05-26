@@ -58,3 +58,7 @@ paths, keys and connection strings to database servers and search providers.
 3. .NET 4.5 with further optional migration to .NET Core
 4. TDD
 5. JSON format of input and output data
+
+## Coding Guidelines
+
+* If a class is being instantitated by reflection at least in some cases - it must have a constructur marked as [UsedImplicitly]
