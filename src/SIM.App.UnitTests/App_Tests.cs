@@ -64,9 +64,21 @@
     [TestMethod]
     public void Deserialize_Json()
     {
-      var command = (DeserializeClass)App.Deserialize(typeof(DeserializeClass), "{'test123': 'myprop123'}");
+      var command = (DeserializeClass)App.Deserialize(typeof(DeserializeClass), "{\"test123\": \"myprop123\", \"ignore\": \"123\", \"inner\": { \"name\": \"name123\"}}");
       Assert.IsNotNull(command);
       Assert.AreEqual("myprop123", command.MyProp);
+      Assert.AreEqual(null, command.Ignore);
+      Assert.AreEqual("name123", command.Inner?.Name);
+    }
+
+    [TestMethod]
+    public void Deserialize_Json5_Reduced()
+    {
+      var command = (DeserializeClass)App.Deserialize(typeof(DeserializeClass), "test123: 'myprop123', /*no ignore*/ inner: { name: 123, } //");
+      Assert.IsNotNull(command);
+      Assert.AreEqual("myprop123", command.MyProp);
+      Assert.AreEqual(null, command.Ignore);
+      Assert.AreEqual("123", command.Inner?.Name);
     }
 
     [TestMethod]
@@ -94,8 +106,19 @@
 
     public class DeserializeClass 
     {
-      [CommandArgument("test123", "description123")]
+      [CommandArgument("test123", "desc_test123")]
       public string MyProp { get; [UsedImplicitly] set; }
+
+      public string Ignore { get; [UsedImplicitly] set; }
+
+      [CommandArgument("desc_inner")]
+      public InnerTestClass Inner { get; set; }
+
+      public class InnerTestClass
+      {
+        [CommandArgument("desc_name")]
+        public string Name { get; set; }
+      }
     }
   }
 }

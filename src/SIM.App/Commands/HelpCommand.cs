@@ -32,9 +32,14 @@
           Message = $"Command '{verb.Value[0]}'. {verb.Value[1]}. Arguments:",
           Data = verb.Key
             .GetProperties()
-            .Select(x => x.GetCustomAttribute<CommandArgumentAttribute>())
-            .Where(x => x != null)
-            .Select(x => $"{x.Name} - {x.Description}")
+            .Select(x => 
+              new
+              {
+                Name = x.Name,
+                Command = x.GetCustomAttribute<CommandArgumentAttribute>()
+              })
+            .Where(x => x.Command != null)
+            .Select(x => $"{x.Command.Name ?? x.Name} - {x.Command.Description}")
             .ToArray<object>()
         };
       }

@@ -10,15 +10,20 @@ namespace SIM.Base
   public class CommandArgumentAttribute : Attribute
   {
     [NotNull]
-    public string Name { get; }
-
-    [NotNull]
     public string Description { get; }
+
+    public CommandArgumentAttribute([NotNull] string description)
+    {
+      Description = description;
+    }
 
     public CommandArgumentAttribute([NotNull] string name, [NotNull] string description)
     {
       Name = name;
       Description = description;
     }
+
+    [CanBeNull]
+    public string Name { get; set; }
   }
 }

@@ -138,7 +138,13 @@
 
     internal static object Deserialize([NotNull] Type type, [NotNull] string commandData)
     {
-      return JsonConvert.DeserializeObject(commandData, type, JsonSettings);
+      commandData = commandData.Trim(" \r\n".ToCharArray());
+      if (commandData.StartsWith("{") && commandData.EndsWith("}"))
+      {
+        commandData = commandData.Substring(1, commandData.Length - 2);
+      }
+
+      return JsonConvert.DeserializeObject($"{{{commandData}\r\n}}", type, DeserializerSettings);
     }
   }
 }

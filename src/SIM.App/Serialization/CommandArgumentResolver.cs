@@ -10,12 +10,19 @@
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {
       var property = base.CreateProperty(member, memberSerialization);
-      var name = member.GetCustomAttribute<CommandArgumentAttribute>()?.Name;
-      if (!string.IsNullOrEmpty(name))
+      var command = member.GetCustomAttribute<CommandArgumentAttribute>();
+      if (command == null)
       {
-        property.PropertyName = name;
+        return null;
       }
 
+      var name = command.Name;
+      if (string.IsNullOrEmpty(name))
+      {
+        return property;
+      }
+
+      property.PropertyName = name;
       return property;
     }
   }
