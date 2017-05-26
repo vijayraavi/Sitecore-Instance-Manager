@@ -8,22 +8,27 @@
   using Sitecore.Diagnostics.Base;
   using SIM.Base.FileSystem;
   using SIM.Base.Services;
-
+  using System.IO;
+                                                  
   public sealed class SqlAdapter
-  {
+  {                                                                                               
     public SqlAdapter([NotNull] SqlConnectionString connectionString)
     {
       ConnectionString = connectionString;
     }
 
     [NotNull]
-    public SqlConnectionString ConnectionString { get; }
-
-    public void DeployDatabase([NotNull] string databaseName, [NotNull] FilePath sourceFilePath)
+    private SqlConnectionString ConnectionString { get; }
+                                                                                                               
+    /// <exception cref="SqlAdapterException" />
+    public void DeployDatabase([NotNull] string databaseName, [NotNull] FilePath bacpacFilePath)
     {
+      Assert.ArgumentCondition(string.Equals(bacpacFilePath.Extension, ".dacpac", StringComparison.OrdinalIgnoreCase), nameof(bacpacFilePath), $"The actual file extension is '{bacpacFilePath}' which does not match expected '.dacpac'.");
+      Assert.ArgumentCondition(File.Exists(bacpacFilePath), nameof(bacpacFilePath), $"The file does not exist by the '{bacpacFilePath}' path.");
+
       try
       {
-        var package = DacPackage.Load(sourceFilePath);
+        var package = DacPackage.Load(bacpacFilePath);
         var options = new DacDeployOptions();
         var services = new DacServices(ConnectionString);
 
@@ -35,14 +40,15 @@
       }
     }
 
-    public void DeleteDatabase([NotNull] string name)
+    /// <exception cref="SqlAdapterException" />
+    public void DeleteDatabase([NotNull] string databaseName)
     {
       try
       {
         using (var connection = new SqlConnection(ConnectionString))
         {
           connection.Open();
-          var sql = $"ALTER DATABASE [{name}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; \r\nDROP DATABASE [{name}]";
+          var sql = $"ALTER DATABASE [{databaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; \r\nDROP DATABASE [{databaseName}]";
           var command = new SqlCommand
           {
             CommandText = sql,
@@ -64,33 +70,13 @@
       }
     }
 
+    /// <exception cref="SqlAdapterException" />
     public bool DatabaseExists([NotNull] string databaseName)
     {
-      try
-      {
-        using (var connection = new SqlConnection(ConnectionString))
-        {
-          connection.Open();
-          var sql = $"SELECT COUNT(*) FROM sys.Databases WHERE [Name] = '{databaseName}'";
-          var command = new SqlCommand
-          {
-            CommandText = sql,
-            Connection = connection,
-            CommandTimeout = int.MaxValue
-          };
-
-          var count = (int)command.ExecuteScalar();
-          Assert.IsTrue(count <= 1, $"There is a problem with {nameof(SqlAdapter)}. {nameof(DatabaseExists)} function detected more than 1 databases with '{databaseName}' name which is definitely wrong.");
-
-          return count == 1;
-        }
-      }
-      catch (Exception ex)
-      {
-        throw new SqlAdapterException(ex);
-      }
+      return !string.IsNullOrWhiteSpace(GetDatabaseFilePath(databaseName));
     }
 
+    /// <exception cref="SqlAdapterException" />
     [NotNull]
     public IReadOnlyList<string> GetDatabases()
     {
@@ -124,7 +110,9 @@
         throw new SqlAdapterException(ex);
       }
     }
-
+               
+    /// <exception cref="SqlAdapterException" />                 
+    /// <exception cref="DatabaseDoesNotExistException" />
     public FilePath GetDatabaseFilePath(string databaseName)
     {
       try

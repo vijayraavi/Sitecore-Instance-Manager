@@ -5,28 +5,7 @@
   using Xunit;
 
   public class App_Tests
-  {
-    [Fact]
-    public void ParseCommandLineArgs()
-    {
-      var line = "\"C:\\tmp\\sim.exe\" some !\" different \"\"?? params [] {} Eee!";
-      var path = "C:\\tmp\\sim.exe";
-      var args = "some !\" different \"\"?? params [] {} Eee!";
-      
-      Assert.Equal(args, AppBuilder.ParseCommandLineArgs(line, path));
-    }
-
-    [Fact]
-    public void FromCommandLine()
-    {
-      var line = "\"C:\\tmp\\sim.exe\" some !\" different \"\"?? params [] {} Eee!";
-      var path = "C:\\tmp\\sim.exe";
-
-      var app = AppBuilder.FromCommandLine(line, path);
-      Assert.Equal("some", app.CommandName);
-      Assert.Equal("!\" different \"\"?? params [] {} Eee!", app.CommandData);
-    }
-
+  {                  
     [Fact]
     public void Process_MissingCommand()
     {
@@ -95,12 +74,7 @@
 
       var json = App.Serialize(obj);
       Assert.NotNull(json);
-      Assert.Equal(@"{
-  'Test123': 'myprop123',
-  'Inner': {
-    'Name': 'name123'
-  }
-}".Replace('\'', '"'), json);
+      Assert.Equal("{\r\n  'Test123': 'myprop123',\r\n  'Inner': {\r\n    'Name': 'name123'\r\n  }\r\n}".Replace('\'', '"'), json);
     }
 
     public class DeserializeClass 

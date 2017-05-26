@@ -1,6 +1,7 @@
 ﻿#region Global
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyProduct("SIM")]
@@ -9,3 +10,5 @@ using System.Runtime.InteropServices;
 #endregion
 
 [assembly: AssemblyTitle("SIM")]
+
+[assembly: InternalsVisibleTo("SIM.App.UnitTests")]

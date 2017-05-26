@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppOutput.cs" />
-    <Compile Include="AppBuilder.cs" />
     <Compile Include="Base\CommandArgumentAttribute.cs" />
     <Compile Include="Base\CommandResult.cs" />
     <Compile Include="Base\Success.cs" />

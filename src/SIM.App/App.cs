@@ -8,8 +8,12 @@
   using SIM.Base;
   using SIM.Commands;
   using SIM.Serialization;
+  using System.Diagnostics;
 
-  public sealed class App
+  /// <summary>
+  ///   The main entry point to the application where all work starts.
+  /// </summary>
+  public class App
   {
     [NotNull]
     internal static IReadOnlyDictionary<Type, string[]> Verbs { get; } =
@@ -41,12 +45,16 @@
     [NotNull]
     internal string CommandData { get; }
 
-    public App([NotNull] string commandName, [NotNull] string commandData)
+    protected internal App([NotNull] string commandName, [NotNull] string commandData)
     {
       CommandName = commandName;
       CommandData = commandData;
     }
 
+    /// <summary>
+    ///   Start work of application with given parameters.
+    /// </summary>
+    /// <returns>The return code.</returns>
     public int Start()
     {
       return ProcessOutput(Process());
@@ -84,11 +92,18 @@
       return error;
     }
 
-    internal static int ProcessOutput([NotNull] AppOutput output)
+    internal int ProcessOutput([NotNull] AppOutput output)
     {
-      Console.WriteLine(Serialize(output));
+      var json = Serialize(output);
+
+      WriteOutput(json);
 
       return output.ReturnCode;
+    }
+
+    protected virtual void WriteOutput([NotNull] string json)
+    {
+      Debug.WriteLine(json);
     }
 
     [NotNull]

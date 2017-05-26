@@ -63,12 +63,17 @@
   <ItemGroup>
     <Compile Include="App_Tests.cs" />
     <Compile Include="Commands\HelpCommand_Tests.cs" />
+    <Compile Include="Program_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SIM.App\SIM.App.csproj">
       <Project>{9AA1C20B-02BA-4AD9-82EE-EC383B7D4E9A}</Project>
       <Name>SIM.App</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM\SIM.csproj">
+      <Project>{641a5897-dca2-49df-9497-6d7f3a255b80}</Project>
+      <Name>SIM</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
