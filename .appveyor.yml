@@ -1,0 +1,20 @@
+before_build:
+  - nuget restore "src\sim2.sln"
+
+platform: Any CPU
+configuration: Release
+  
+artifacts:
+  - path: 'src\SIM\bin\$(configuration)\**\*.*'
+    name: sim2
+    
+test:
+  assemblies:
+    only:
+      - 'src\**\*.UnitTest*.dll'
+      
+notifications:
+  - provider: Email
+    to:
+      - anp@sitecore.net
+    subject: '[sim2] build {{status}}'
