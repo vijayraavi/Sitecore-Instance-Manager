@@ -113,7 +113,7 @@
                
     /// <exception cref="SqlAdapterException" />                 
     /// <exception cref="DatabaseDoesNotExistException" />
-    public FilePath GetDatabaseFilePath(string databaseName)
+    public FilePath GetDatabaseFilePath([NotNull] string databaseName)
     {
       try
       {

@@ -35,12 +35,12 @@
 
     private class ConsoleApp : App
     {                               
-      internal ConsoleApp(string commandName, string commandData)
+      internal ConsoleApp([NotNull] string commandName, [NotNull] string commandData)
         : base(commandName, commandData)
       {                                 
       }
 
-      protected override void WriteOutput([NotNull] string json)
+      protected override void WriteOutput(string json)
       {
         Console.WriteLine(json);
       }
