@@ -73,7 +73,7 @@
     /// <exception cref="SqlAdapterException" />
     public bool DatabaseExists([NotNull] string databaseName)
     {
-      return !string.IsNullOrWhiteSpace(GetDatabaseFilePath(databaseName));
+      return !string.IsNullOrWhiteSpace(DoGetDatabaseFilePath(databaseName));
     }
 
     /// <exception cref="SqlAdapterException" />
@@ -115,6 +115,17 @@
     /// <exception cref="DatabaseDoesNotExistException" />
     public FilePath GetDatabaseFilePath([NotNull] string databaseName)
     {
+      var filePath = DoGetDatabaseFilePath(databaseName);
+      if (string.IsNullOrWhiteSpace(filePath))
+      {
+        throw new DatabaseDoesNotExistException(databaseName);
+      }
+
+      return new FilePath(filePath);
+    }
+
+    private string DoGetDatabaseFilePath([NotNull] string databaseName)
+    {
       try
       {
         using (var connection = new SqlConnection(ConnectionString))
@@ -132,13 +143,7 @@
             CommandTimeout = int.MaxValue
           };
 
-          var filePath = (string)command.ExecuteScalar();
-          if (string.IsNullOrWhiteSpace(filePath))
-          {
-            throw new DatabaseDoesNotExistException(databaseName);
-          }
-
-          return new FilePath(filePath);
+          return (string)command.ExecuteScalar();
         }
       }
       catch (SqlAdapterException)
