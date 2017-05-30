@@ -50,36 +50,28 @@
       var sourceFilePath = new FilePath("SqlAdapter_Database.dacpac");
       Assert.AreEqual(true, File.Exists(sourceFilePath));
 
+      int count;
       try
       {
-        int count;
-        try
-        {
-          Adapter.DeployDatabase(databaseName, sourceFilePath);
-          Assert.AreEqual(true, Adapter.DatabaseExists(databaseName));
-          Assert.AreEqual(true, !string.IsNullOrEmpty(Adapter.GetDatabaseFilePath(databaseName)));
+        Adapter.DeployDatabase(databaseName, sourceFilePath);
+        Assert.AreEqual(true, Adapter.DatabaseExists(databaseName));
+        Assert.AreEqual(true, !string.IsNullOrEmpty(Adapter.GetDatabaseFilePath(databaseName)));
 
-          var databases = Adapter.GetDatabases();
-          Assert.AreEqual(true, databases.Contains(databaseName));
+        var databases = Adapter.GetDatabases();
+        Assert.AreEqual(true, databases.Contains(databaseName));
 
-          count = databases.Count;
-          Assert.AreEqual(true, count >= 1);
-        }
-        finally
-        {
-          Adapter.DeleteDatabase(databaseName);
-        }
-
-        Assert.AreEqual(false, Adapter.DatabaseExists(databaseName));
-
-        var newCount = Adapter.GetDatabases().Count;
-        Assert.AreEqual(count - 1, newCount);
+        count = databases.Count;
+        Assert.AreEqual(true, count >= 1);
       }
       finally
       {
-        // clean up if test fails
-        File.Delete(sourceFilePath);
+        Adapter.DeleteDatabase(databaseName);
       }
+
+      Assert.AreEqual(false, Adapter.DatabaseExists(databaseName));
+
+      var newCount = Adapter.GetDatabases().Count;
+      Assert.AreEqual(count - 1, newCount);
     }
 
     [NotNull]
