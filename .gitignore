@@ -16,3 +16,7 @@ src/SIM.Foundation.SqlAdapter.IntegrationTests/bin/
 src/SIM.Foundation.SqlAdapter.IntegrationTests/obj/
 src/SIM.Base.UnitTests/bin/
 src/SIM.Base.UnitTests/obj/
+src/SIM.Foundation.WebAdapter.IntegrationTests/bin/
+src/SIM.Foundation.WebAdapter.IntegrationTests/obj/
+src/SIM.Foundation.WebAdapter/bin/
+src/SIM.Foundation.WebAdapter/obj/
