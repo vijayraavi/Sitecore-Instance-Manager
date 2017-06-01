@@ -146,10 +146,6 @@
           return (string)command.ExecuteScalar();
         }
       }
-      catch (SqlAdapterException)
-      {
-        throw;
-      }
       catch (Exception ex)
       {
         throw new SqlAdapterException(ex);

@@ -11,10 +11,10 @@
   [TestClass]
   public class SqlAdapter_Tests
   {
-    private const string LocalConnectionString = "Data Source=.; User ID=sa; Password=12345";
+    private const string DefaultEnvSqlPath = @"C:\Sitecore\etc\sim2\env\default\SqlServer.txt";
 
     [NotNull]
-    private SqlAdapter Adapter { get; } = new SqlAdapter(new SqlConnectionString(LocalConnectionString));
+    private SqlAdapter Adapter { get; } = new SqlAdapter(new SqlConnectionString(File.ReadAllText(DefaultEnvSqlPath)));
 
     [TestMethod]
     public void DeleteDatabase_MissingDatabase()
