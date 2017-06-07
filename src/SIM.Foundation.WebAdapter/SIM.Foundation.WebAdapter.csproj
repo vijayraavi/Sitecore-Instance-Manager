@@ -49,9 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\ListWebsitesResponse.cs" />
     <Compile Include="Adapters\WebServerAdapter.cs" />
     <Compile Include="Adapters\WebServerAdapterException.cs" />
     <Compile Include="Adapters\WebSiteDoesNotExistException.cs" />
+    <Compile Include="Adapters\WebsiteInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

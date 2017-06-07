@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".metadata", ".metadata", "{
 	ProjectSection(SolutionItems) = preProject
 		..\.appveyor.yml = ..\.appveyor.yml
 		..\.gitignore = ..\.gitignore
+		..\LAYERS.md = ..\LAYERS.md
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -29,6 +30,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Foundation.WebAdapter.IntegrationTests", "SIM.Foundation.WebAdapter.IntegrationTests\SIM.Foundation.WebAdapter.IntegrationTests.csproj", "{3F7D6CED-70FD-4F51-BD85-5072E9EA6CF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Base.UnitTests", "SIM.Base.UnitTests\SIM.Base.UnitTests.csproj", "{883085B5-6E2B-4733-98F9-00C3DD8E4CE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{0600AD37-AC2B-4590-AA70-8D9872C7922C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{2E4CD69D-8C47-448A-B4ED-B6FBFCBB0FD5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Foundation", "Foundation", "{081CAA46-E659-4121-A934-D9A3FEE82151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -154,8 +161,12 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{641A5897-DCA2-49DF-9497-6D7F3A255B80} = {0F692619-498C-4BA4-BBFD-89BBC6708918}
-		{9AA1C20B-02BA-4AD9-82EE-EC383B7D4E9A} = {0F692619-498C-4BA4-BBFD-89BBC6708918}
-		{5B7E2142-58E1-499C-96C3-F787101AC86F} = {0F692619-498C-4BA4-BBFD-89BBC6708918}
+		{9AA1C20B-02BA-4AD9-82EE-EC383B7D4E9A} = {0600AD37-AC2B-4590-AA70-8D9872C7922C}
+		{5B7E2142-58E1-499C-96C3-F787101AC86F} = {0600AD37-AC2B-4590-AA70-8D9872C7922C}
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78} = {081CAA46-E659-4121-A934-D9A3FEE82151}
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA} = {081CAA46-E659-4121-A934-D9A3FEE82151}
+		{D06B5BE8-B3FF-46AC-8AF9-BC8D55BDFEFE} = {081CAA46-E659-4121-A934-D9A3FEE82151}
+		{3F7D6CED-70FD-4F51-BD85-5072E9EA6CF4} = {081CAA46-E659-4121-A934-D9A3FEE82151}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

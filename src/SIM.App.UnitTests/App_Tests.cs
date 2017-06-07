@@ -9,19 +9,19 @@
     [Fact]
     public void Process_MissingCommand()
     {
-      var sut = new App("test123", "");
+      var sut = new TestApp("test123", "");
 
       var output = sut.Process();
       Assert.NotNull(output);
       Assert.Equal(false, output.Success);
       Assert.Equal(-2, output.ReturnCode);
-      Assert.Equal("Cannot find command 'test123'. Run 'sim info' to get list of all supported commands.", output.Error);
+      Assert.Equal("Cannot find command 'test123'. Run 'app_exe info' to get list of all supported commands.", output.Error);
     }
 
     [Fact]
     public void Process_HelpCommand()
     {
-      var sut = new App("help", "");
+      var sut = new TestApp("help", "");
 
       var output = sut.Process();
       Assert.NotNull(output);
@@ -31,11 +31,11 @@
 
       var result = output.Result;
       Assert.NotNull(result);
-      Assert.Equal("SIM.exe is a command-line version of Sitecore Instance Manager 2.0 (SIM2), read more on https://github.com/sitecore/sitecore-instance-manager. The list of commands see in \'Data\' array, the arguments are passed in JSON5 format. For example: C:\\> sim help {\'command\': \"help\"}", result.Message);
+      Assert.Equal("App info. The list of commands see in \'Data\' array, the arguments are passed in JSON5 format. For example: C:\\> app_exe help {\'command\': \"help\"}", result.Message);
 
       var data = result.Data;
       Assert.NotNull(data);
-      Assert.Equal("help - Provides information about app or particular command", data[0]);
+      Assert.Equal("help - help_descr", data[0]);
       Assert.Equal(1, data.Length);
     }
 

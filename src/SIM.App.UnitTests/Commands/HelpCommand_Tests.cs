@@ -7,47 +7,27 @@
   public class HelpCommand_Tests
   {
     [Fact]
-    public void Process_CommandName_Missing()
-    {
-      var sut = new HelpCommand
-      {
-        CommandName = "test123"
-      };
-
-      try
-      {
-        sut.Execute();
-      }
-      catch (ArgumentException ex)
-      {
-        Assert.Equal("Cannot find command \'test123\'. Run \'sim help\' to get list of all supported commands.", ex.Message);
-
-        return;
-      }
-
-      throw new NotSupportedException();
-    }
-
-    [Fact]
     public void Process_CommandName_Empty()
     {
+      var commandName = "";
       var sut = new HelpCommand
       {
-        CommandName = ""
+        CommandName = commandName,
+        App = new TestApp(commandName)
       };
 
       var result = sut.Execute();
       Assert.NotNull(result);
       
       Assert.Equal(
-        "SIM.exe is a command-line version of Sitecore Instance Manager 2.0 (SIM2), read more on https://github.com/sitecore/sitecore-instance-manager. The list of commands see in 'Data' array, the arguments are passed in JSON5 format. For example: C:\\> sim help {'command': \"help\"}",
+        "App info. The list of commands see in 'Data' array, the arguments are passed in JSON5 format. For example: C:\\> app_exe help {'command': \"help\"}",
         result.Message);
 
       var data = result.Data;
       Assert.NotNull(data);
 
       Assert.Equal(
-        "help - Provides information about app or particular command", 
+        "help - help_descr", 
         data[0]);
 
       Assert.Equal(1, data.Length);
@@ -56,16 +36,18 @@
     [Fact]
     public void Process_CommandName_Help()
     {
-      var sut = new HelpCommand
+      var commandName = "help";
+      var sut = new HelpCommand()
       {
-        CommandName = "help"
+        CommandName = commandName,
+        App = new TestApp(commandName)
       };
 
       var result = sut.Execute();
       Assert.NotNull(result);
       
       Assert.Equal(
-        "Command 'help'. Provides information about app or particular command. Arguments:",
+        "Command 'help'. help_descr. Arguments:",
         result.Message);
 
       var data = result.Data;

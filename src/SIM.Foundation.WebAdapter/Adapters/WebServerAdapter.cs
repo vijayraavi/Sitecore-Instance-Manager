@@ -245,25 +245,4 @@
       return $"{ConnectionString.Url}{url}";
     }
   }
-
-  public sealed class ListWebsitesResponse
-  {
-    [CanBeNull]
-    public WebsiteInfo[] Websites { get; set; }
-  }
-
-  public class WebsiteInfo
-  {
-    [CanBeNull]
-    public string Id { get; set; }
-
-    [CanBeNull]
-    public string Name { get; set; }
-
-    [CanBeNull]
-    [JsonProperty("physical_path")]
-    public string PhysicalPath { private get; set; }
-
-    public FilePath RootDirectoryPath => new FilePath(PhysicalPath ?? throw new InvalidOperationException($"{nameof(PhysicalPath)} is not available"));
-  }
 }

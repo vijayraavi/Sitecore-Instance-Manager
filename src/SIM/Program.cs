@@ -1,8 +1,10 @@
 ﻿namespace SIM
 {
-  using JetBrains.Annotations;
   using System;
+  using System.Collections.Generic;
   using System.Diagnostics;
+  using JetBrains.Annotations;
+  using SIM.Commands;
 
   internal static class Program
   {
@@ -10,39 +12,35 @@
     {
       var commandLine = Environment.CommandLine;
       var fileName = Process.GetCurrentProcess().MainModule.FileName;
-
-      var app = CreateApp(commandLine, fileName);
-
-      return app.Start();
+      var runner = new SimRunner();
+      
+      return runner.Start(commandLine, fileName);
     }
-
-    [NotNull]
-    internal static App CreateApp([NotNull] string commandLine, [NotNull] string executableFilePath)
+    
+    internal class SimRunner : AppRunner
     {
-      var args = ParseCommandLineArgs(commandLine, executableFilePath);
+      protected override App CreateApp(string commandName, string commandData) 
+        => new SimApp(commandName, commandData);
 
-      var commandName = args.Substring(0, Math.Max(0, args.IndexOf(' ')));
-      var commandData = args.Substring(Math.Min(args.Length, commandName.Length + 1));
-
-      return new ConsoleApp(commandName, commandData);
-    }
-
-    [NotNull]
-    internal static string ParseCommandLineArgs([NotNull] string commandLine, [NotNull] string executableFilePath)
-    {
-      return commandLine.Substring(Math.Min(commandLine.Length, $"\"{executableFilePath}\" ".Length));
-    }
-
-    private class ConsoleApp : App
-    {                               
-      internal ConsoleApp([NotNull] string commandName, [NotNull] string commandData)
-        : base(commandName, commandData)
-      {                                 
-      }
-
-      protected override void WriteOutput(string json)
+      internal class SimApp : ConsoleApp
       {
-        Console.WriteLine(json);
+        public SimApp([NotNull] string commandName, [NotNull] string commandData)
+          : base(commandName, commandData)
+        {
+        }
+
+        protected override IReadOnlyDictionary<Type, string[]> Verbs { get; } =
+          new Dictionary<Type, string[]>
+          {
+            { typeof(HelpCommand), new[] { "help", "Provides information about app or particular command" } }
+          };
+
+        public override string Information { get; } 
+          = "SIM.exe is a command-line version of Sitecore Instance Manager 2.0 (SIM2), " +
+          "read more on https://github.com/sitecore/sitecore-instance-manager.";
+
+        public override string ExecutableName { get; } 
+          = "sim";
       }
     }
   }
